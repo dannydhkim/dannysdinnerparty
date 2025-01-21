@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="script.js"></script>
+    <title>Danny’s Dinner Party</title>
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <meta name="description" content="RSVP for Danny’s Dinner Party and check out our weekly menu!">
+    <meta name="keywords" content="Dinner Party, RSVP, Weekly Menu, Reservations">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-blue-800 text-white py-12">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold">Danny’s Dinner Party</h1>
+            <p class="mt-4 text-lg">Join us for a delightful evening every Friday!</p>
+        </div>
+    </header>
+
+    <section id="menu" class="py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-semibold mb-6 text-center">Weekly Menu</h2>
+            <div class="space-y-8" id="menu-list">
+                <!-- Menus will be injected here -->
+            </div>
+        </div>
+    </section>
+
+    <section id="rsvp" class="bg-white py-12 shadow-md">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-semibold mb-6 text-center">RSVP by Wednesday</h2>
+            <form id="rsvp-form" class="max-w-lg mx-auto space-y-6">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name<span class="text-red-500">*</span>:</label>
+                    <input type="text" id="name" name="name" placeholder="Your full name" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-800 focus:ring-blue-800">
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-800 focus:ring-blue-800">
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+1234567890"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-800 focus:ring-blue-800">
+                </div>
+
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700">Select Dinner Date<span class="text-red-500">*</span>:</label>
+                    <!-- Centered Embedded Flatpickr -->
+                    <div class="mt-1 flex justify-center">
+                        <div id="date-picker" class="flatpickr-calendar inline-block"></div>
+                        <input type="hidden" id="date" name="date" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="guests" class="block text-sm font-medium text-gray-700">Number of Guests (including yourself)<span class="text-red-500">*</span>:</label>
+                    <input type="number" id="guests" name="guests" min="1" max="10" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-800 focus:ring-blue-800">
+                </div>
+
+                <!-- Weekly Updates Section -->
+                <div>
+                    <span class="block text-sm font-medium text-gray-700">Would you like weekly updates?</span>
+                    <!-- Centered Radio Buttons -->
+                    <div class="mt-2 flex justify-center items-center space-x-4">
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="updates" value="No" class="form-radio text-blue-800" checked>
+                            <span class="ml-2">No</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="updates" value="Email" class="form-radio text-blue-800">
+                            <span class="ml-2">Email</span>
+                        </label>
+                        <label class="inline-flex items-center">
+                            <input type="radio" name="updates" value="Text" class="form-radio text-blue-800">
+                            <span class="ml-2">Text</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit"
+                        class="w-full py-3 px-4 bg-blue-800 text-white font-semibold rounded-md hover:bg-blue-900 transition duration-300">
+                    Submit RSVP
+                </button>
+            </form>
+            <p id="form-message" class="mt-4 text-center"></p>
+        </div>
+    </section>
