@@ -20,11 +20,32 @@
         </div>
     </header>
 
+
     <section id="menu" class="py-12">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-semibold mb-6 text-center">Weekly Menu</h2>
-            <div class="space-y-8" id="menu-list">
-                <!-- Menus will be injected here -->
+            <div class="relative">
+                <!-- Arrow Buttons -->
+                <button id="prev-button" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 hover:bg-gray-200 text-blue-800 p-3 rounded-full shadow-md focus:outline-none transition duration-300">
+                    <!-- Left Arrow SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="next-button" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 hover:bg-gray-200 text-blue-800 p-3 rounded-full shadow-md focus:outline-none transition duration-300">
+                    <!-- Right Arrow SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+                <!-- Menu Cards Container -->
+                <div class="flex justify-center">
+                    <div class="w-full max-w-md">
+                        <div id="menu-cards" class="space-y-8">
+                            <!-- Menu cards will be injected here -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

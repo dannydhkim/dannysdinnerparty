@@ -2,16 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchMenu();
     setupForm();
     initializeDatePicker();
+    setupCarousel();
+
 });
 
-function fetchMenu() {
-    const menuUrl = 'https://script.google.com/macros/s/AKfycbybRQ_qVmQDVDGgQx1wfQfYdV8xusSsTvTjdOXiVAVlJo18k5Swu87iOaFgIdH4G0rfVg/exec'; // Replace with your Menu fetch script URL
+const webAppUrl = 'https://script.google.com/macros/s/AKfycbybRQ_qVmQDVDGgQx1wfQfYdV8xusSsTvTjdOXiVAVlJo18k5Swu87iOaFgIdH4G0rfVg/exec'; // Replace with your Menu fetch script URL
 
-    fetch(menuUrl)
-    .then(response => response.json())
-    .then(data => {
-        displayMenus(data);
-    })
+let menus = {};
+let currentWeek = 'thisWeekMenu'; // Default to this week
+
+function fetchMenu() {
+    fetch(webAppUrl)
+        .then(response => response.json())
+        .then(data => {
+            menus = data;
+            displayCurrentMenu();
+        })
         .catch(error => {
             console.error('Error fetching menu:', error);
             const menuSection = document.getElementById('menu');
@@ -19,50 +25,53 @@ function fetchMenu() {
         });
 }
 
-function displayMenus(data) {
-    const { thisWeekMenu, lastWeekMenu } = data;
-    const menuList = document.getElementById('menu-list');
-    
-    // Clear existing content
-    menuList.innerHTML = '';
-    
-    // Function to create a menu card
-    function createMenuCard(title, menuItems) {
-        const card = document.createElement('div');
-        card.classList.add('bg-white', 'shadow-md', 'rounded-lg', 'p-6');
-        
-        const header = document.createElement('h3');
-        header.classList.add('text-2xl', 'font-semibold', 'mb-4', 'text-center', 'text-blue-800');
-        header.textContent = title;
-        card.appendChild(header);
-        
-        if (menuItems.length === 0) {
-            const li = document.createElement('p');
-            li.textContent = `No menu available for ${title.toLowerCase()}.`;
-            li.classList.add('text-center', 'text-gray-500');
-            card.appendChild(li);
-        } else {
-            const ul = document.createElement('ul');
-            ul.classList.add('space-y-2');
-            menuItems.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = `• ${item}`;
-                li.classList.add('text-lg');
-                ul.appendChild(li);
-            });
-            card.appendChild(ul);
-        }
-        
-        return card;
+
+function displayCurrentMenu() {
+    const menuCardsContainer = document.getElementById('menu-cards');
+    menuCardsContainer.innerHTML = ''; // Clear existing content
+
+    const currentMenu = menus[currentWeek] || [];
+
+    // Create a menu card
+    const card = document.createElement('div');
+    card.classList.add('bg-white', 'shadow-md', 'rounded-lg', 'p-6', 'mx-auto');
+
+    const header = document.createElement('h3');
+    header.classList.add('text-2xl', 'font-semibold', 'mb-4', 'text-center', 'text-blue-800');
+    header.textContent = getWeekTitle(currentWeek);
+    card.appendChild(header);
+
+    if (currentMenu.length === 0) {
+        const li = document.createElement('p');
+        li.textContent = `No menu available for ${getWeekTitle(currentWeek).toLowerCase()}.`;
+        li.classList.add('text-center', 'text-gray-500');
+        card.appendChild(li);
+    } else {
+        const ul = document.createElement('ul');
+        ul.classList.add('space-y-2');
+        currentMenu.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = `• ${item}`;
+            li.classList.add('text-lg');
+            ul.appendChild(li);
+        });
+        card.appendChild(ul);
     }
-    
-    // Create and append This Week's Menu Card
-    const thisWeekCard = createMenuCard("This Week's Menu", thisWeekMenu);
-    menuList.appendChild(thisWeekCard);
-    
-    // Create and append Last Week's Menu Card
-    const lastWeekCard = createMenuCard("Last Week's Menu", lastWeekMenu);
-    menuList.appendChild(lastWeekCard);
+
+    menuCardsContainer.appendChild(card);
+}
+
+function getWeekTitle(weekKey) {
+    switch (weekKey) {
+        case 'lastWeekMenu':
+            return "Last Week's Menu";
+        case 'thisWeekMenu':
+            return "This Week's Menu";
+        case 'nextWeekMenu':
+            return "Next Week's Menu";
+        default:
+            return "Menu";
+    }
 }
 
 function setupForm() {
@@ -164,6 +173,31 @@ function initializeDatePicker() {
         onChange: function(selectedDates, dateStr, instance) {
             // Update the hidden input field
             document.getElementById('date').value = dateStr;
+        }
+    });
+}
+
+function setupCarousel() {
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+
+    prevButton.addEventListener('click', () => {
+        if (currentWeek === 'nextWeekMenu') {
+            currentWeek = 'thisWeekMenu';
+            displayCurrentMenu();
+        } else if (currentWeek === 'thisWeekMenu') {
+            currentWeek = 'lastWeekMenu';
+            displayCurrentMenu();
+        }
+    });
+
+    nextButton.addEventListener('click', () => {
+        if (currentWeek === 'lastWeekMenu') {
+            currentWeek = 'thisWeekMenu';
+            displayCurrentMenu();
+        } else if (currentWeek === 'thisWeekMenu') {
+            currentWeek = 'nextWeekMenu';
+            displayCurrentMenu();
         }
     });
 }
