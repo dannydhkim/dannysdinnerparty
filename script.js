@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-const webAppUrl = 'https://script.google.com/macros/s/AKfycbybRQ_qVmQDVDGgQx1wfQfYdV8xusSsTvTjdOXiVAVlJo18k5Swu87iOaFgIdH4G0rfVg/exec'; // Replace with your Menu fetch script URL
+const webAppUrl = 'https://script.google.com/macros/s/AKfycbzUftLx1pEHi-FPKDJc8PE5pTTDFSaESziqwIiQJNpJZ30Grtmi6_62mBjqeBuvl4CY9g/exec'; // Replace with your Menu fetch script URL
 
 let menus = {};
 let currentWeek = 'thisWeekMenu'; // Default to this week
